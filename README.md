@@ -1,0 +1,2 @@
+# quantiac
+Exploring trading APIs
