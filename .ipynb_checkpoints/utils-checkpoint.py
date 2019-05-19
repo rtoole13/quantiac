@@ -66,5 +66,6 @@ def make_ticker_dict(source=os.path.join(SCRIPT_DIRECTORY, "tickerData"), data_s
             df["DATE"] = pd.to_datetime(df["DATE"], format="%Y%m%d")
             df = df.set_index("DATE")
             data_dict[filename[:filename.find(".txt")]] = df
+            df.columns = [item.strip() for item in df.columns]
             
     return data_dict
