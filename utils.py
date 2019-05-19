@@ -69,3 +69,18 @@ def make_ticker_dict(source=os.path.join(SCRIPT_DIRECTORY, "tickerData"), data_s
             df.columns = [item.strip() for item in df.columns]
             
     return data_dict
+
+def ticker_dict_to_df(ticker_dict):
+    
+    data_df_list = []
+    multi_index_labels = []
+    for key in ticker_dict.keys():
+        data_df = ticker_dict[key]
+        for colname in data_df.columns:
+            multi_index_labels.append((key, colname))
+        data_df_list.append(data_df)
+    df = pd.concat(data_df_list, axis=1)
+    index = pd.MultiIndex.from_tuples(multi_index_labels, names=['market', 'metric'])
+    df.columns = index
+    
+    return df
