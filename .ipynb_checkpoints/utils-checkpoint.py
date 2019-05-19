@@ -3,6 +3,8 @@ import os
 
 import pandas as pd
 
+SCRIPT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
+
 FUTURES_LIST = ['F_AD','F_BO','F_BP','F_C','F_CC','F_CD','F_CL','F_CT','F_DX','F_EC','F_ED','F_ES','F_FC',
                 'F_FV','F_GC','F_HG','F_HO','F_JY','F_KC','F_LB','F_LC','F_LN','F_MD','F_MP','F_NG','F_NQ',
                 'F_NR','F_O','F_OJ','F_PA','F_PL','F_RB','F_RU','F_S','F_SB','F_SF','F_SI','F_SM','F_TU',
@@ -46,12 +48,12 @@ STOCKS_LIST = ['AAPL', 'MMM', 'ABT', 'ABBV', 'ACN', 'ALL', 'MO', 'AMZN', 'AEP', 
                'VMC', 'VNO', 'VRSN', 'VRTX', 'VTR', 'WAT', 'WDC', 'WEC', 'WFM', 'WHR', 'WIN', 'WM', 'WMB', 'WU', 'WY',
                'WYN', 'WYNN', 'XEC', 'XEL', 'XL', 'XLNX', 'XRAY', 'XRX', 'XYL', 'YHOO', 'YUM', 'ZION', 'ZTS' ]
 
-def unzip_ticker_data(source="tickerData.zip", destination="."):
+def unzip_ticker_data(source=os.path.join(SCRIPT_DIRECTORY, "tickerData.zip"), destination=SCRIPT_DIRECTORY):
     with zipfile.ZipFile(source, 'r') as zip_ref:
         zip_ref.extractall(destination)
         zip_ref.close()
         
-def make_ticker_dict(source="tickerData", data_subset=None):
+def make_ticker_dict(source=os.path.join(SCRIPT_DIRECTORY, "tickerData"), data_subset=None):
     data_dict = {}
     
     files_in_directory = os.listdir(source)
