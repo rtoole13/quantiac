@@ -56,10 +56,10 @@ def make_ticker_dict(source="tickerData", data_subset=None):
     
     files_in_directory = os.listdir(source)
     if not data_subset:
-        data_subset = files_in_directory
+        data_subset = [item[:-len(".txt")] for item in files_in_directory]
         
     for filename in files_in_directory:
-        if filename[:-len(".txt")]  in data_subset:
+        if filename[:-len(".txt")] in data_subset:
             df = pd.read_table(os.path.join(source, filename), sep=",")
             df["DATE"] = pd.to_datetime(df["DATE"], format="%Y%m%d")
             df = df.set_index("DATE")
