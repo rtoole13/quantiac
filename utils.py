@@ -1,7 +1,9 @@
 import zipfile
+import shutil
 import os
 
 import pandas as pd
+import quantiacsToolbox as qt
 
 SCRIPT_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
@@ -46,7 +48,20 @@ STOCKS_LIST = ['AAPL', 'MMM', 'ABT', 'ABBV', 'ACN', 'ALL', 'MO', 'AMZN', 'AEP', 
                'SYMC', 'SYY', 'TAP', 'TDC', 'TE', 'TEL', 'THC', 'TIF', 'TJX', 'TMK', 'TMO', 'TRIP', 'TROW', 'TRV', 'TSCO',
                'TSN', 'TSO', 'TSS', 'TWC', 'TXT', 'TYC', 'UA', 'UHS', 'UNM', 'URBN', 'URI', 'VAR', 'VFC', 'VIAB', 'VLO',
                'VMC', 'VNO', 'VRSN', 'VRTX', 'VTR', 'WAT', 'WDC', 'WEC', 'WFM', 'WHR', 'WIN', 'WM', 'WMB', 'WU', 'WY',
-               'WYN', 'WYNN', 'XEC', 'XEL', 'XL', 'XLNX', 'XRAY', 'XRX', 'XYL', 'YHOO', 'YUM', 'ZION', 'ZTS' ]
+               'WYN', 'WYNN', 'XEC', 'XEL', 'XL', 'XLNX', 'XRAY', 'XRX', 'XYL', 'YHOO', 'YUM', 'ZION', 'ZTS']
+
+MARKET_INDICATORS_LIST = ["USA_ADP", "USA_EARN", "USA_HRS", "USA_BOT", "USA_BC", "USA_BI", "USA_CU", "USA_CF", "USA_CHJC", 
+                "USA_CFNAI", "USA_CP", "USA_CCR", "USA_CPI", "USA_CCPI", "USA_CINF", "USA_DFMI", "USA_DUR", "USA_DURET",
+                "USA_EXPX", "USA_EXVOL", "USA_FRET", "USA_FBI", "USA_GBVL", "USA_GPAY", "USA_HI", "USA_IMPX", "USA_IMVOL",
+                "USA_IP", "USA_IPMOM", "USA_CPIC", "USA_CPICM", "USA_JBO", "USA_LFPR", "USA_LEI", "USA_MPAY", "USA_MP",
+                "USA_NAHB", "USA_NLTTF", "USA_NFIB", "USA_NFP", "USA_NMPMI", "USA_NPP", "USA_EMPST", "USA_PHS", "USA_PFED",
+                "USA_PP", "USA_PPIC", "USA_RSM", "USA_RSY", "USA_RSEA", "USA_RFMI", "USA_TVS", "USA_UNR", "USA_WINV"]
+
+os.chdir(SCRIPT_DIRECTORY)
+
+def refresh_ticker_data():
+    qt.loadData(marketList=FUTURES_LIST + STOCKS_LIST + MARKET_INDICATORS_LIST, dataToLoad=[], refresh=True)    
+    shutil.make_archive('tickerData', 'zip', 'tickerData')
 
 def unzip_ticker_data(source=os.path.join(SCRIPT_DIRECTORY, "tickerData.zip"), destination=SCRIPT_DIRECTORY):
     with zipfile.ZipFile(source, 'r') as zip_ref:
@@ -84,3 +99,7 @@ def ticker_dict_to_df(ticker_dict):
     df.columns = index
     
     return df
+    
+if __name__ == "__main__":
+    refresh_ticker_data()
+    unzip_ticker_data()
